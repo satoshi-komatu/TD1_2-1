@@ -1,6 +1,6 @@
 #include <Novice.h>
 
-const char kWindowTitle[] = "学籍番号";
+const char kWindowTitle[] = "テストブランチ";
 
 typedef struct Vector2f {
 	float x;
