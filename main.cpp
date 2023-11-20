@@ -129,8 +129,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
     };
 
-	// 移動する前にいる座標の変数
+	int scrollMinY = 0;
+	int scrollMaxY = 550;
 
+	// 移動する前にいる座標の変数
 	int oldScrollX = scroll.x;
 	int oldScrollY = scroll.y;
 
@@ -206,9 +208,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				isJamp = true;
 				ball.velocity.y = -21.0f;
 				// スクロールさせない
-				if (playerPos.y >= 100 && playerPos.y <= 550) {
+			/*	if (playerPos.y >= 100 && playerPos.y <= 550) {
 					scroll.y = oldScrollY;
-				}
+				}*/
 			}
 			// 速度に加速度加算
 			ball.velocity.y += ball.acceleration.y;
@@ -260,8 +262,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			// ■■■カメラ処理改造部分
 
 			scroll.y = playerPos.y - screenHeight/2;
-			int scrollMinY = 0;
-			int scrollMaxY = 550;
+			
 			if (scroll.y < scrollMinY) {
 				scroll.y = scrollMinY;
 			}
