@@ -129,8 +129,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
     };
 
+	// スクロール最大・最小値
+	// X
 	int scrollMinY = 0;
-	int scrollMaxY = 550;
+	int scrollMaxY = 450;
+	// Y
+	int scrollMinX = 0;
+	int scrollMaxX = 1700;
 
 	// 移動する前にいる座標の変数
 	int oldScrollX = scroll.x;
@@ -207,10 +212,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			if ((keys[DIK_SPACE] && preKeys[DIK_SPACE] == 0) && isJamp == false) {
 				isJamp = true;
 				ball.velocity.y = -21.0f;
-				// スクロールさせない
-			/*	if (playerPos.y >= 100 && playerPos.y <= 550) {
-					scroll.y = oldScrollY;
-				}*/
 			}
 			// 速度に加速度加算
 			ball.velocity.y += ball.acceleration.y;
@@ -238,31 +239,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				ball.velocity.y = 0;
 				playerPos.y = (box.leftBottomY - 1) * mapTileSize;
 			}
+
 			// 自由落下中のスクロール
 			// スクロールする
-			if (playerPos.y >= 50 && playerPos.y <= 550) {
-				if (map[box.leftTopY][box.leftTopX] == 0 &&
-				    map[box.leftBottomY][box.leftBottomX] == 0 &&
-				    map[box.rightTopY][box.rightTopX] == 0 &&
-				    map[box.rightBottomY][box.rightBottomX] == 0) {
-					//scroll.y += int(ball.velocity.y);
-				}
-			}
-			// スクロールが止まる
-			if (playerPos.y <= 50) {
-				scroll.y = 0;
-			}
-			// スクロールが止まる
-			if (playerPos.y >= 550) {
-				scroll.y = 450;
-			}
-			// Yに速度加算
-			playerPos.y += int(ball.velocity.y);
+			scroll.y = playerPos.y - screenHeight / 2;
 
-			// ■■■カメラ処理改造部分
-
-			scroll.y = playerPos.y - screenHeight/2;
-			
 			if (scroll.y < scrollMinY) {
 				scroll.y = scrollMinY;
 			}
@@ -270,7 +251,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				scroll.y = scrollMaxY;
 			}
 
-
+			// Yに速度加算
+			playerPos.y += int(ball.velocity.y);
 
 			// マップ座標更新
 			nowMapX = mapX;
@@ -291,24 +273,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				if (map[box.leftTopY][box.leftTopX] == 0 &&
 				    map[box.leftBottomY][box.leftBottomX] == 0) {
 					playerPos.x -= int(ball.velocity.x);
-					if (playerPos.x >= 350 && playerPos.x < 2050) {
-						scroll.x -= int(ball.velocity.x);
-						// 左上か左下がブロックだったらスクロールが止まる
-						if (map[box.leftTopY][box.leftTopX] == 1 ||
-						    map[box.leftBottomY][box.leftBottomX] == 1) {
-							scroll.x = oldScrollX;
-						}
+					// 左上か左下がブロックだったらスクロールが止まる
+					if (map[box.leftTopY][box.leftTopX] == 1 ||
+					    map[box.leftBottomY][box.leftBottomX] == 1) {
+						scroll.x = oldScrollX;
 					}
 				}
-				// 0だったらスクロールしない(左側）
-				if (playerPos.x <= 350) {
-					scroll.x = 0;
-				}
-				// 1700だったらスクロールしない
-				if (playerPos.x >= 2050) {
-					scroll.x = 1700;
-				}
 			}
+
 			// 右
 			if ((keys[DIK_RIGHT] || keys[DIK_D])) {
 				// 右角の判定
@@ -322,24 +294,31 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				if (map[box.rightTopY][box.rightTopX] == 0 &&
 				    map[box.rightBottomY][box.rightBottomX] == 0) {
 					playerPos.x += int(ball.velocity.x);
-					if (playerPos.x >= 350 && playerPos.x < 2050) {
-						scroll.x += int(ball.velocity.x);
-						// 右上か右下がブロックだったらスクロールが止まる
-						if (map[box.rightTopY][box.rightTopX] == 1 ||
-						    map[box.rightBottomY][box.rightBottomX] == 1) {
-							scroll.x = oldScrollX;
-						}
+					// スクロールする
+					if (scrollMinX < playerPos.x || playerPos.x > scrollMaxX) {
+						scroll.x = playerPos.x + screenWidth / 2;
+					}
+					// 右上か右下がブロックだったらスクロールが止まる
+					if (map[box.rightTopY][box.rightTopX] == 1 ||
+					    map[box.rightBottomY][box.rightBottomX] == 1) {
+						scroll.x = oldScrollX;
 					}
 				}
-				// 0だったらスクロールしない（左側）
-				if (playerPos.x <= 350) {
-					scroll.x = 0;
-				}
-				// 1700だったらスクロールしない
-				if (playerPos.x >= 2050) {
-					scroll.x = 1700;
-				}
 			}
+
+			// スクロールする
+			if (scrollMinX < playerPos.x || playerPos.x > scrollMaxX) {
+				scroll.x = playerPos.x - screenWidth / 2;
+			}
+			// スクロール止まる
+			if (scroll.x < scrollMinX) {
+				scroll.x = scrollMinX;
+			}
+			// スクロール止まる
+			if (scroll.x > scrollMaxX) {
+				scroll.x = scrollMaxX;
+			}
+
 			break;
 #pragma endregion
 
