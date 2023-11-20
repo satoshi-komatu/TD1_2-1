@@ -56,7 +56,9 @@ typedef struct horn {
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// ライブラリの初期化
-	Novice::Initialize(kWindowTitle, 800, 800);
+	const int screenWidth = 800;
+	const int screenHeight = 800;
+	Novice::Initialize(kWindowTitle, screenWidth, screenHeight);
 
 	// キー入力結果を受け取る箱
 	char keys[256] = {0};
@@ -241,7 +243,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				    map[box.leftBottomY][box.leftBottomX] == 0 &&
 				    map[box.rightTopY][box.rightTopX] == 0 &&
 				    map[box.rightBottomY][box.rightBottomX] == 0) {
-					scroll.y += int(ball.velocity.y);
+					//scroll.y += int(ball.velocity.y);
 				}
 			}
 			// スクロールが止まる
@@ -254,6 +256,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 			// Yに速度加算
 			playerPos.y += int(ball.velocity.y);
+
+			// ■■■カメラ処理改造部分
+
+			scroll.y = playerPos.y - screenHeight/2;
+			int scrollMinY = 0;
+			int scrollMaxY = 550;
+			if (scroll.y < scrollMinY) {
+				scroll.y = scrollMinY;
+			}
+			if (scroll.y > scrollMaxY) {
+				scroll.y = scrollMaxY;
+			}
+
+
 
 			// マップ座標更新
 			nowMapX = mapX;
@@ -357,6 +373,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma region YESTITLE
 			// ジャンプあり
 		case YESJAMP:
+
 			for (int y = 0; y < mapY; y++) {
 				for (int x = 0; x < mapX; x++) {
 					if (map[y][x] == 1) {
