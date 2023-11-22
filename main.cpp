@@ -119,7 +119,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	     0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1},
 	    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1,
 	     1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	    {1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	    {1, 0, 0, 0, 1, 1, 1, 5, 1, 4, 1, 3, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	     0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1},
 	    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
@@ -155,6 +155,23 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	bool isYesJamp = false;
 	// ジャンプするかしないか
 	bool isJamp = false;
+
+
+	//↓playerの持ってる数字変数
+	int stockNumber = 0;
+
+	//↓演算ブロックの持っている数字
+	int plasNumber = 2;
+	int mainNumber = 2;
+	int putNumber = 4;
+	int noputNumber = 2;
+
+	//↓演算ブロックのフラグ
+	int isNumber = 0;
+	int ismainNumber = 0;
+	int isputNumber = 0;
+	int isnoNumber = 0;
+
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -229,6 +246,83 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				ball.velocity.y = 0;
 				playerPos.y = (box.leftTopY + 1) * mapTileSize;
 			}
+
+			//下からへの当たり判定
+			//map番号2の場合↓
+			if (isNumber == 0) {
+				if (map[box.leftTopY][box.leftTopX] == 2 || map[box.rightTopY][box.rightTopX] == 2) {
+					ball.velocity.y = 0;
+					playerPos.y = (box.leftTopY + 1) * mapTileSize;
+					stockNumber = stockNumber + plasNumber;//足し算
+					isNumber = 1;
+				
+				}
+			}
+			//map番号3の場合↓
+			if (ismainNumber == 0) {
+
+				if (map[box.leftTopY][box.leftTopX] == 3 || map[box.rightTopY][box.rightTopX] == 3) {
+					ball.velocity.y = 0;
+					playerPos.y = (box.leftTopY + 1) * mapTileSize;
+					stockNumber = stockNumber - mainNumber;//引き算
+					ismainNumber = 1;
+
+			    }
+			}
+			//map番号4の場合↓
+			if (isputNumber == 0) {
+				if (map[box.leftTopY][box.leftTopX] == 4 || map[box.rightTopY][box.rightTopX] == 4) {
+					ball.velocity.y = 0;
+					playerPos.y = (box.leftTopY + 1) * mapTileSize;
+					stockNumber = stockNumber * putNumber;//掛け算
+					isputNumber = 1;
+
+				}
+			}
+			//map番号4の場合↓
+			if (isnoNumber == 0) {
+				if (map[box.leftTopY][box.leftTopX] == 5 || map[box.rightTopY][box.rightTopX] == 5) {
+					ball.velocity.y = 0;
+					playerPos.y = (box.leftTopY + 1) * mapTileSize;
+					stockNumber = stockNumber / noputNumber;//割り算
+					isnoNumber = 1;
+
+				}
+			}
+
+			if (isNumber == 1) {//一度叩いたらただのブロックに戻る
+				if (map[box.leftTopY][box.leftTopX] == 2 || map[box.rightTopY][box.rightTopX] == 2) {
+					ball.velocity.y = 0;
+					playerPos.y = (box.leftTopY + 1) * mapTileSize;
+					
+
+				}
+
+			}
+			if (ismainNumber == 1) {//一度叩いたらただのブロックに戻る
+				if (map[box.leftTopY][box.leftTopX] == 3 || map[box.rightTopY][box.rightTopX] == 3) {
+					ball.velocity.y = 0;
+					playerPos.y = (box.leftTopY + 1) * mapTileSize;
+
+				}
+
+			}
+			
+			if (isputNumber == 1) {//一度叩いたらただのブロックに戻る
+				if (map[box.leftTopY][box.leftTopX] == 4 || map[box.rightTopY][box.rightTopX] == 4) {
+					ball.velocity.y = 0;
+					playerPos.y = (box.leftTopY + 1) * mapTileSize;
+
+				}
+			}
+
+			if (isnoNumber == 1) {//一度叩いたらただのブロックに戻る
+				if (map[box.leftTopY][box.leftTopX] == 5 || map[box.rightTopY][box.rightTopX] == 5) {
+					ball.velocity.y = 0;
+					playerPos.y = (box.leftTopY + 1) * mapTileSize;
+				}
+			}
+
 			// 自由落下したときに地面にのめりこむかのめりこまないか
 			if (map[box.leftBottomY][box.leftBottomX] == 1 ||
 			    map[box.rightBottomY][box.rightBottomX] == 1) {
@@ -236,6 +330,42 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				ball.velocity.y = 0;
 				playerPos.y = (box.leftBottomY - 1) * mapTileSize;
 			}
+
+
+			//上からへの当たり判定
+			//map2↓
+			if (map[box.leftBottomY][box.leftBottomX] == 2 ||
+				map[box.rightBottomY][box.rightBottomX] == 2) {
+				isJamp = false;
+				ball.velocity.y = 0;
+				playerPos.y = (box.leftBottomY - 1) * mapTileSize;
+			}
+
+			//map3↓
+			if (map[box.leftBottomY][box.leftBottomX] == 3 ||
+				map[box.rightBottomY][box.rightBottomX] == 3) {
+				isJamp = false;
+				ball.velocity.y = 0;
+				playerPos.y = (box.leftBottomY - 1) * mapTileSize;
+			}
+
+			//map4↓
+			if (map[box.leftBottomY][box.leftBottomX] == 4 ||
+				map[box.rightBottomY][box.rightBottomX] == 4) {
+				isJamp = false;
+				ball.velocity.y = 0;
+				playerPos.y = (box.leftBottomY - 1) * mapTileSize;
+			}
+
+			//map5↓
+			if (map[box.leftBottomY][box.leftBottomX] == 5 ||
+				map[box.rightBottomY][box.rightBottomX] == 5) {
+				isJamp = false;
+				ball.velocity.y = 0;
+				playerPos.y = (box.leftBottomY - 1) * mapTileSize;
+			}
+
+
 			// 自由落下中のスクロール
 			// スクロールする
 			if (playerPos.y >= 50 && playerPos.y <= 550) {
@@ -376,6 +506,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			for (int y = 0; y < mapY; y++) {
 				for (int x = 0; x < mapX; x++) {
+
 					if (map[y][x] == 1) {
 						Novice::DrawBox(
 						    (x * mapTileSize) - scroll.x, (y * mapTileSize) - scroll.y, mapTileSize,
@@ -386,8 +517,81 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						    (x * mapTileSize) - scroll.x, (y * mapTileSize) - scroll.y, mapTileSize,
 						    mapTileSize, 0.0f, BLACK, kFillModeSolid);
 					}
+
+					//map2の時
+					if (isNumber == 0) {
+						if (map[y][x] == 2) {
+							Novice::DrawBox(
+								(x * mapTileSize) - scroll.x, (y * mapTileSize) - scroll.y, mapTileSize,
+								mapTileSize, 0.0f, BLUE, kFillModeSolid);
+						}
+
+					}
+					//一度叩いたらただのブロックに戻る描画
+					if (isNumber == 1) {
+						if (map[y][x] == 2) {
+							Novice::DrawBox(
+								(x * mapTileSize) - scroll.x, (y * mapTileSize) - scroll.y, mapTileSize,
+								mapTileSize, 0.0f, RED, kFillModeSolid);
+						}
+
+					}
+
+					//map3の時
+					if (ismainNumber == 0) {
+						if (map[y][x] == 3) {
+							Novice::DrawBox(
+								(x * mapTileSize) - scroll.x, (y * mapTileSize) - scroll.y, mapTileSize,
+								mapTileSize, 0.0f, GREEN, kFillModeSolid);
+						}
+
+					}
+					if (ismainNumber == 1) {//一度叩いたらただのブロックに戻る描画
+						if (map[y][x] == 3) {
+							Novice::DrawBox(
+								(x * mapTileSize) - scroll.x, (y * mapTileSize) - scroll.y, mapTileSize,
+								mapTileSize, 0.0f, RED, kFillModeSolid);
+						}
+
+					}
+
+					//map4の時
+					if (isputNumber == 0) {
+						if (map[y][x] == 4) {
+							Novice::DrawBox(
+								(x * mapTileSize) - scroll.x, (y * mapTileSize) - scroll.y, mapTileSize,
+								mapTileSize, 0.0f, WHITE, kFillModeSolid);
+						}
+					}
+					if (isputNumber == 1) {//一度叩いたらただのブロックに戻る描画
+						if (map[y][x] == 4) {
+							Novice::DrawBox(
+								(x * mapTileSize) - scroll.x, (y * mapTileSize) - scroll.y, mapTileSize,
+								mapTileSize, 0.0f, RED, kFillModeSolid);
+						}
+					}
+
+					//map5の時
+					if (isnoNumber == 0) {
+
+						if (map[y][x] == 5) {
+							Novice::DrawBox(
+								(x * mapTileSize) - scroll.x, (y * mapTileSize) - scroll.y, mapTileSize,
+								mapTileSize, 0.0f, BLUE, kFillModeSolid);
+						}
+					}
+					if (isnoNumber == 1) {//一度叩いたらただのブロックに戻る描画
+
+						if (map[y][x] == 5) {
+							Novice::DrawBox(
+								(x * mapTileSize) - scroll.x, (y * mapTileSize) - scroll.y, mapTileSize,
+								mapTileSize, 0.0f, RED, kFillModeSolid);
+						}
+					}
+					
 				}
 			}
+			Novice::ScreenPrintf(0, 0, "%d", stockNumber);
 			// player表記
 			Novice::DrawBox(
 			    (playerPos.x) - scroll.x, (int)(playerPos.y) - scroll.y, playerTileSize,
