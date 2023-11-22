@@ -333,7 +333,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 
 			//上からへの当たり判定
-			//map2↓
+			//map番号2の場合↓
 			if (map[box.leftBottomY][box.leftBottomX] == 2 ||
 				map[box.rightBottomY][box.rightBottomX] == 2) {
 				isJamp = false;
@@ -341,7 +341,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				playerPos.y = (box.leftBottomY - 1) * mapTileSize;
 			}
 
-			//map3↓
+			//map番号3の場合↓
 			if (map[box.leftBottomY][box.leftBottomX] == 3 ||
 				map[box.rightBottomY][box.rightBottomX] == 3) {
 				isJamp = false;
@@ -349,7 +349,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				playerPos.y = (box.leftBottomY - 1) * mapTileSize;
 			}
 
-			//map4↓
+			//map番号4の場合↓
 			if (map[box.leftBottomY][box.leftBottomX] == 4 ||
 				map[box.rightBottomY][box.rightBottomX] == 4) {
 				isJamp = false;
@@ -357,7 +357,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				playerPos.y = (box.leftBottomY - 1) * mapTileSize;
 			}
 
-			//map5↓
+			//map番号5の場合↓
 			if (map[box.leftBottomY][box.leftBottomX] == 5 ||
 				map[box.rightBottomY][box.rightBottomX] == 5) {
 				isJamp = false;
