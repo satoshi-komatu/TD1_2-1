@@ -129,6 +129,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
     };
 
+	int Num =
+		Novice::LoadTexture("./1.1.png");
 	// スクロール最大・最小値
 	// X
 	int scrollMinY = 0;
@@ -333,43 +335,45 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				ball.velocity.y = 0;
 				playerPos.y = (box.leftBottomY - 1) * mapTileSize;
 
-
-			//上からへの当たり判定
-			//map番号2の場合↓
-			if (map[box.leftBottomY][box.leftBottomX] == 2 ||
-				map[box.rightBottomY][box.rightBottomX] == 2) {
-				isJamp = false;
-				ball.velocity.y = 0;
-				playerPos.y = (box.leftBottomY - 1) * mapTileSize;
-			}
-
-			//map番号3の場合↓
-			if (map[box.leftBottomY][box.leftBottomX] == 3 ||
-				map[box.rightBottomY][box.rightBottomX] == 3) {
-				isJamp = false;
-				ball.velocity.y = 0;
-				playerPos.y = (box.leftBottomY - 1) * mapTileSize;
-			}
-
-			//map番号4の場合↓
-			if (map[box.leftBottomY][box.leftBottomX] == 4 ||
-				map[box.rightBottomY][box.rightBottomX] == 4) {
-				isJamp = false;
-				ball.velocity.y = 0;
-				playerPos.y = (box.leftBottomY - 1) * mapTileSize;
-			}
-
-			//map番号5の場合↓
-			if (map[box.leftBottomY][box.leftBottomX] == 5 ||
-				map[box.rightBottomY][box.rightBottomX] == 5) {
-				isJamp = false;
-				ball.velocity.y = 0;
-				playerPos.y = (box.leftBottomY - 1) * mapTileSize;
-			}
-
-
 			}// 自由落下中のスクロール
 			// スクロールする
+			
+			//上からへの当たり判定
+			//map番号2の場合↓
+				
+
+					if (map[box.leftBottomY][box.leftBottomX] == 2 ||
+						map[box.rightBottomY][box.rightBottomX] == 2) {
+						isJamp = false;
+						ball.velocity.y = 0;
+						playerPos.y = (box.leftBottomY - 1) * mapTileSize;
+					}
+				
+			//map番号3の場合↓
+				if (map[box.leftBottomY][box.leftBottomX] == 3 ||
+					map[box.rightBottomY][box.rightBottomX] == 3) {
+					isJamp = false;
+					ball.velocity.y = 0;
+					playerPos.y = (box.leftBottomY - 1) * mapTileSize;
+				}
+
+			//map番号4の場合↓
+				if (map[box.leftBottomY][box.leftBottomX] == 4 ||
+					map[box.rightBottomY][box.rightBottomX] == 4) {
+					isJamp = false;
+					ball.velocity.y = 0;
+					playerPos.y = (box.leftBottomY - 1) * mapTileSize;
+				}
+
+			//map番号5の場合↓
+				if (map[box.leftBottomY][box.leftBottomX] == 5 ||
+					map[box.rightBottomY][box.rightBottomX] == 5) {
+					isJamp = false;
+					ball.velocity.y = 0;
+					playerPos.y = (box.leftBottomY - 1) * mapTileSize;
+				}
+
+
 			
 			
 			scroll.y = playerPos.y - screenHeight / 2;
@@ -477,6 +481,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			if (isYesJamp == true) {
 				Novice::DrawSprite(0, 500, trueStageYesJump, 1.0f, 1.0f, 0.0f, WHITE);
 			}
+
 			break;
 #pragma endregion
 
@@ -572,10 +577,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				}
 			}
 			Novice::ScreenPrintf(0, 0, "%d", stockNumber);
+
 			// player表記
 			Novice::DrawBox(
 			    (playerPos.x) - scroll.x, (int)(playerPos.y) - scroll.y, playerTileSize,
 			    playerTileSize, 0.0f, BLUE, kFillModeSolid);
+			Novice::DrawSprite((playerPos.x) - scroll.x-2-10, (int)(playerPos.y) - scroll.y-50,  Num, 1.0f, 1.0f, 0.0f, 0xFFFFFFFF);
 			break;
 #pragma endregion
 
